@@ -1,0 +1,27 @@
+{
+  "name": "ta-demo-extension",
+  "version": "0.1.0",
+  "description": "Chrome Extension for demoing Task Analytics",
+  "main": "eventPage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voutilad/ta-demo-extension.git"
+  },
+  "author": "Dave Voutila <dave@taskanalytics.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/voutilad/ta-demo-extension/issues"
+  },
+  "homepage": "https://github.com/voutilad/ta-demo-extension#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jasmine": "^1.1.0",
+    "grunt-crx": "^1.0.5",
+    "grunt-webpack": "^2.0.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
+  }
+}
