@@ -17,10 +17,14 @@
   },
   "homepage": "https://github.com/voutilad/ta-demo-extension#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "grunt": "^1.0.1",
     "grunt-contrib-jasmine": "^1.1.0",
     "grunt-crx": "^1.0.5",
+    "grunt-mocha": "^1.0.4",
     "grunt-webpack": "^2.0.1",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   }
