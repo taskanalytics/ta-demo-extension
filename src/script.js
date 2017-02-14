@@ -3,7 +3,10 @@ function inject_ta(taId) {
   var script = document.createElement('script');
 
   script.type = 'text/javascript';
-  script.text = 'alert("hey man! taId: ' + taId + '");';
+  script.text =
+    'var el = document.createElement("div");' +
+    'el.id = "findme";' +
+    'document.getElementsByTagName("body")[0].appendChild(el);';
   body.appendChild(script);
 
 }
