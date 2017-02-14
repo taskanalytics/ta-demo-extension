@@ -2,12 +2,11 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    jasmine: {
-      src: 'src/**/*.js',
+    mochacli: {
       options: {
-        specs: ['tests/**/*.js'],
-        vendors: ['node_modules/sinon-chrome/index.js']
-      }
+        reporter: 'spec'
+      },
+      all: ['tests/*.js']
     },
     crx: {
       myPublicExtension: {
@@ -18,12 +17,9 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-crx');
-  grunt.loadNpmTasks('grunt-webpack');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-mocha-cli');
 
-  // Default task(s).
-  grunt.registerTask('test', ['jasmine']);
-
-  grunt.registerTask('default', ['test']);
-  grunt.registerTask('dist', ['test', 'crx'])
+  grunt.registerTask('default', ['mochacli']);
+  grunt.registerTask('test', ['mochacli']);
+  grunt.registerTask('dist', ['mochacli', 'crx']);
 };
