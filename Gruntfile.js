@@ -4,9 +4,10 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     mochacli: {
       options: {
+        require: ['tests/helper'],
         reporter: 'spec'
       },
-      all: ['tests/*.js']
+      all: ['tests/*test.js']
     },
     crx: {
       myPublicExtension: {

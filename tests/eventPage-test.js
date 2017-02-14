@@ -1,9 +1,3 @@
-var fs = require('fs');
-var sinon = require('sinon');
-var chrome = require('sinon-chrome');
-var assert = require('chai').assert;
-var jsdom = require('jsdom');
-
 describe('Tests for Chrome Extension Background Page', function() {
 
   var window;
