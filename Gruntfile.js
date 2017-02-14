@@ -2,12 +2,10 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    mocha: {
-      all: {
-        src: ['tests/testrunner.html']
-      },
+    jasmine: {
+      src: 'src/**/*.js',
       options: {
-        run: true
+        specs: ['tests/**/*.js']
       }
     },
     crx: {
@@ -18,11 +16,13 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-mocha');
   grunt.loadNpmTasks('grunt-crx');
   grunt.loadNpmTasks('grunt-webpack');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
 
   // Default task(s).
-  grunt.registerTask('default', ['mocha']);
-  grunt.registerTask('dist', ['mocha', 'crx'])
+  grunt.registerTask('test', ['jasmine']);
+
+  grunt.registerTask('default', ['test']);
+  grunt.registerTask('dist', ['test', 'crx'])
 };
