@@ -5,7 +5,8 @@ module.exports = function(grunt) {
     jasmine: {
       src: 'src/**/*.js',
       options: {
-        specs: ['tests/**/*.js']
+        specs: ['tests/**/*.js'],
+        vendors: ['node_modules/sinon-chrome/index.js']
       }
     },
     crx: {
