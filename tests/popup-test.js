@@ -12,6 +12,12 @@ describe('The popup widget', function() {
   beforeEach(function(done) {
     jsdom.env({
       html: fs.readFileSync('src/popup.html', 'utf-8'),
+      features : {
+        FetchExternalResources : ['script'],
+        ProcessExternalResources : ['script'],
+        SkipExternalResources: false
+      },
+      scripts: ['src/popup.js'],
       created: function(errors, wnd) {
         // attach `chrome` to window
         wnd.chrome = chrome;
@@ -36,7 +42,32 @@ describe('The popup widget', function() {
     window.close();
   });
 
-  it('should be tested!', function() {
-    assert.isNotNull(window);
+  it('should mention Task Analytics', function() {
+    assert.include(window.document.body.textContent, 'Task Analytics');
   });
+
+  it('should have a text input and button that set the TA ID', function() {
+    var input = window.document.getElementById('taId');
+    var button = window.document.getElementById('update');
+
+    assert.isNotNull(input);
+    assert.isNotNull(button);
+  });
+
+  describe("and it's javascript", function() {
+    it('should support saving settings to chrome storage', function() {
+      window.document.getElementById('taId').value = 'schwifty';
+      window.save_options();
+
+      sinon.assert.calledOnce(chrome.storage.sync.set);
+      chrome.storage.sync.set.calledWith({taId: 'schwifty'});
+    });
+
+    it('should support retrieving settings from chrome storage', function() {
+      window.restore_options();
+      sinon.assert.calledOnce(chrome.storage.sync.get);
+      assert.include(window.document.getElementById('taId').value, '123456');
+    });
+  });
+
 });

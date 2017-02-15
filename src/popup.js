@@ -1,3 +1,4 @@
+
 // Saves options to chrome.storage
 function save_options() {
   var taId = document.getElementById('taId').value;
