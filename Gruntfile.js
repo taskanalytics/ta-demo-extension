@@ -9,18 +9,44 @@ module.exports = function(grunt) {
       },
       all: ['tests/*test.js']
     },
+    watch: {
+      scripts: {
+        files: ['src/**'],
+        tasks: ['copy']
+      }
+    },
+    copy: {
+      main: {
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: [
+              'src/**',
+              'node_modules/bootstrap/dist/js/*.min.js',
+              'node_modules/bootstrap/dist/css/*.min.css',
+              'node_modules/jquery/dist/jquery.min.js'
+            ],
+            dest: 'build/', filter: 'isFile'},
+        ],
+      },
+    },
+    clean: ['build/', 'dist/'],
     crx: {
       myPublicExtension: {
-        src: "src/**/*",
-        dest: "dist/myPublicExtension.zip",
+        src: ['build/**'],
+        dest: 'dist/myPublicExtension.zip',
       }
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-crx');
   grunt.loadNpmTasks('grunt-mocha-cli');
 
-  grunt.registerTask('default', ['mochacli']);
+  grunt.registerTask('default', ['test']);
   grunt.registerTask('test', ['mochacli']);
-  grunt.registerTask('dist', ['mochacli', 'crx']);
+  grunt.registerTask('dist', ['mochacli', 'clean', 'copy', 'crx']);
 };
