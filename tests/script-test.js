@@ -47,7 +47,22 @@ describe('The injection script', function() {
     window.inject_ta('schwifty');
 
     var script = window.document.getElementsByTagName('script')[0];
-    assert.include(script.text, 'findme');
+    assert.include(script.text, 'schwifty');
+  });
+
+  it('injects on a valid TA id response', function() {
+    window.handleMessageResponse({taId: 'schwifty'});
+
+    var scripts = window.document.getElementsByTagName('script');
+    assert.lengthOf(scripts, 1);
+    assert.include(scripts[0].text, 'schwifty');
+  });
+
+  it('does not inject if it gets a bad TA id response', function() {
+    window.handleMessageResponse({});
+
+    var scripts = window.document.getElementsByTagName('script');
+    assert.lengthOf(scripts, 0);
   });
 
 });
