@@ -12,7 +12,7 @@ describe('The injection script', function() {
   beforeEach(function(done) {
     jsdom.env({
       // generated background page
-      html: '<html></html>',
+      html: '<html><body></body></html>',
       // js source
       src: [fs.readFileSync('src/script.js', 'utf-8')],
       created: function(errors, wnd) {
@@ -41,7 +41,13 @@ describe('The injection script', function() {
 
   it('requests the TA id on start', function() {
     sinon.assert.calledOnce(chrome.runtime.sendMessage);
+  });
 
+  it('can inject ta code into the body', function() {
+    window.inject_ta('schwifty');
+
+    var script = window.document.getElementsByTagName('script')[0];
+    assert.include(script.text, 'findme');
   });
 
 });
