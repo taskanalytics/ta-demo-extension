@@ -1,4 +1,7 @@
-describe('Tests for Chrome Extension Background Page', function() {
+/*
+  Tests for the js that runs in the background in Chrome
+*/
+describe('The Chrome background page', function() {
 
   var window;
 
@@ -36,12 +39,12 @@ describe('Tests for Chrome Extension Background Page', function() {
     window.close();
   });
 
-  it('should attach the listener on startup', function() {
+  it('attaches the listener on startup', function() {
     sinon.assert.calledOnce(chrome.runtime.onMessage.addListener);
   });
 
-  describe('the listener', function() {
-    it('should respond to getTAID request appropriately', function() {
+  describe('has a listener that', function() {
+    it('responds to getTAID request appropriately', function() {
       var eventPage = require('../src/eventPage');
       var sendResponse = sinon.spy();
 

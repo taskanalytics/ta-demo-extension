@@ -42,11 +42,11 @@ describe('The popup widget', function() {
     window.close();
   });
 
-  it('should mention Task Analytics', function() {
+  it('mentions Task Analytics', function() {
     assert.include(window.document.body.textContent, 'Task Analytics');
   });
 
-  it('should have a text input and button that set the TA ID', function() {
+  it('has a text input and button that set the TA ID', function() {
     var input = window.document.getElementById('taId');
     var button = window.document.getElementById('update');
 
@@ -54,8 +54,8 @@ describe('The popup widget', function() {
     assert.isNotNull(button);
   });
 
-  describe("and it's javascript", function() {
-    it('should support saving settings to chrome storage', function() {
+  describe('and its javascript', function() {
+    it('saves settings to chrome storage', function() {
       window.document.getElementById('taId').value = 'schwifty';
       window.save_options();
 
@@ -63,7 +63,7 @@ describe('The popup widget', function() {
       chrome.storage.sync.set.calledWith({taId: 'schwifty'});
     });
 
-    it('should support retrieving settings from chrome storage', function() {
+    it('retrieves settings from chrome storage', function() {
       window.restore_options();
       sinon.assert.calledOnce(chrome.storage.sync.get);
       assert.include(window.document.getElementById('taId').value, '123456');
