@@ -16,14 +16,26 @@ function save_options() {
 }
 
 function restore_options() {
-  chrome.storage.sync.get({
-    taId: '',
-  }, function(items) {
+  chrome.storage.sync.get({taId: ''}, function(items) {
     document.getElementById('taId').value = items.taId;
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  restore_options();
+function toggle_powerstate(state) {
+  if(state === 'on') {
+    chrome.storage.sync.set({taActive: true});
+  }else {
+    chrome.storage.sync.set({taActive: false});
+  }
+}
+
+function bind_events() {
   document.getElementById('update').addEventListener('click', save_options);
+  document.getElementById('on').addEventListener('click', toggle_powerstate);
+  document.getElementById('off').addEventListener('click', toggle_powerstate);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  bind_events();
+  restore_options();
 });

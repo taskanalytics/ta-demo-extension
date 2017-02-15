@@ -23,7 +23,7 @@ describe('The popup widget', function() {
         wnd.chrome = chrome;
         wnd.console = console;
 
-        chrome.storage.sync.get.withArgs({taId: ''}).yields({taId: 123456});
+        chrome.storage.sync.get.withArgs({taId: '', taActive: false}).yields({taId: 123456, taActive: true});
       },
       done: function(errors, wnd) {
         if (errors) {
@@ -52,6 +52,42 @@ describe('The popup widget', function() {
 
     assert.isNotNull(input);
     assert.isNotNull(button);
+  });
+
+  describe('has a power toggle', function() {
+    it('for on and off', function() {
+      var on = window.document.getElementById('on');
+      var off = window.document.getElementById('off');
+
+      assert.isNotNull(on);
+      assert.isNotNull(off);
+
+    });
+
+    it('defaults to off', function() {
+      var on = window.document.getElementById('on');
+      var off = window.document.getElementById('off');
+
+      assert.isFalse(on.checked);
+      assert.isTrue(off.checked);
+    });
+
+    it('updates a global power state', function() {
+      window.bind_events();
+
+      var on = window.document.getElementById('on');
+      on.click();
+      sinon.assert.calledOnce(chrome.storage.sync.set);
+      chrome.storage.sync.set.calledWith({taActive: true});
+
+      chrome.storage.sync.set.reset();
+
+      var off = window.document.getElementById('off');
+      off.click();
+      sinon.assert.calledOnce(chrome.storage.sync.set);
+      chrome.storage.sync.set.calledWith({taActive: false});
+
+    });
   });
 
   describe('and its javascript', function() {

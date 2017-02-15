@@ -13,8 +13,12 @@ function inject_ta(taId) {
 
 function handleMessageResponse(response) {
   if(response != undefined && response.taId != undefined) {
-    console.log("using taId: " + response.taId);
-    inject_ta(response.taId);
+    if(response.taActive != undefined && response.taActive) {
+      console.log("using taId: " + response.taId);
+      inject_ta(response.taId);
+    }else {
+      console.log('ta demo is not active');
+    }
   }
 };
 

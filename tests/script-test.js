@@ -20,7 +20,7 @@ describe('The injection script', function() {
         wnd.chrome = chrome;
         wnd.console = console;
 
-        chrome.storage.sync.get.withArgs({taId: ''}).yields({taId: 'schwifty'});
+        chrome.storage.sync.get.withArgs({taId: '', taActive: false}).yields({taId: 'schwifty', taActive: true});
       },
       done: function(errors, wnd) {
         if (errors) {
@@ -51,7 +51,7 @@ describe('The injection script', function() {
   });
 
   it('injects on a valid TA id response', function() {
-    window.handleMessageResponse({taId: 'schwifty'});
+    window.handleMessageResponse({taId: 'schwifty', taActive: true});
 
     var scripts = window.document.getElementsByTagName('script');
     assert.lengthOf(scripts, 1);
@@ -60,6 +60,18 @@ describe('The injection script', function() {
 
   it('does not inject if it gets a bad TA id response', function() {
     window.handleMessageResponse({});
+
+    var scripts = window.document.getElementsByTagName('script');
+    assert.lengthOf(scripts, 0);
+
+    window.handleMessageResponse({taId: 'schwifty'});
+
+    var scripts = window.document.getElementsByTagName('script');
+    assert.lengthOf(scripts, 0);
+  });
+
+  it('does not inject if the taActive flag is false', function() {
+    window.handleMessageResponse({taId: 'schwifty', taActive: false});
 
     var scripts = window.document.getElementsByTagName('script');
     assert.lengthOf(scripts, 0);

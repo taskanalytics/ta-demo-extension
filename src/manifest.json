@@ -1,8 +1,8 @@
 {
-  "name": "Task Analytics Demo Extension",
+  "name": "Task Analytics Demo",
   "description": "Lets you demo Task Analytics on your website without making code changes.",
   "version": "0.1",
-  "minimum_chrome_version": "55.0",
+  "minimum_chrome_version": "52.0",
   "permissions": [
     "https://in.taskanalytics.com/",
     "storage",
