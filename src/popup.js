@@ -1,5 +1,8 @@
 
-// Saves options to chrome.storage
+/**
+ * Saves the Task Analytics ID to the Chrome storage.
+ *
+ */
 function save_options() {
   var taId = document.getElementById('taId').value;
   console.log('Saving taID: ' + taId);
@@ -15,6 +18,10 @@ function save_options() {
   });
 }
 
+
+/**
+ * updates the popup html state to reflect the state stored in chrome
+ */
 function restore_options() {
   chrome.storage.sync.get({taId: '', taActive: false}, function(items) {
     document.getElementById('taId').value = items.taId;
@@ -26,6 +33,12 @@ function restore_options() {
   });
 }
 
+/**
+ * Toggles the on/off state stored in Chrome, thus enabling or disabling
+ * the Chrome extension.
+ *
+ * @param  {string} state new power state either 'on' or 'off'
+ */
 function toggle_powerstate(state) {
   if(state === 'on') {
     console.log('--enabling ta demo');
@@ -36,6 +49,9 @@ function toggle_powerstate(state) {
   }
 }
 
+/**
+ * Wires up event listeners for clicks in the popup html.
+ */
 function bind_events() {
   document.getElementById('update').addEventListener('click', save_options);
   document.getElementById('on').addEventListener('click', function() { toggle_powerstate('on'); });

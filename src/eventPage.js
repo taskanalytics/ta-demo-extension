@@ -13,6 +13,8 @@ var listener = function(request, sender, sendResponse) {
 
 chrome.runtime.onMessage.addListener(listener);
 
+// wrapped with a try/catch to help with testing since 'exports' isn't available
+// in the browser
 try {
   exports.listener = listener
 }catch(ReferenceError) {
