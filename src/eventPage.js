@@ -2,9 +2,9 @@
 var listener = function(request, sender, sendResponse) {
   if (request.command == 'getTAID') {
     //console.log('[TA] Handling getTAID request...');
-    chrome.storage.sync.get({taId: ''}, function(result) {
+    chrome.storage.sync.get({taId: '', taActive: false}, function(result) {
       //console.log('[TA] Looked up taId: ' + result.taId);
-      sendResponse({taId: result.taId});
+      sendResponse({taId: result.taId, taActive: result.taActive});
     });
 
     return true;

@@ -21,6 +21,8 @@ describe('The Chrome background page', function() {
         wnd.console = console;
 
         chrome.storage.sync.get.withArgs({taId: ''}).yields({taId: 123456});
+        chrome.storage.sync.get.withArgs({taId: '', taActive: false}).yields({taId: 123456, taActive: true});
+
       },
       done: function(errors, wnd) {
         if (errors) {
@@ -52,7 +54,7 @@ describe('The Chrome background page', function() {
       assert.isTrue(result);
       sinon.assert.calledOnce(chrome.storage.sync.get);
       sinon.assert.calledOnce(sendResponse);
-      assert(sendResponse.calledWith({taId: 123456}));
+      assert(sendResponse.calledWith({taId: 123456, taActive: true}));
 
     });
   });

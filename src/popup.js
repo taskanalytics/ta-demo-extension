@@ -16,23 +16,30 @@ function save_options() {
 }
 
 function restore_options() {
-  chrome.storage.sync.get({taId: ''}, function(items) {
+  chrome.storage.sync.get({taId: '', taActive: false}, function(items) {
     document.getElementById('taId').value = items.taId;
+    if(items.taActive) {
+      document.getElementById('on').checked = true;
+    }else {
+      document.getElementById('off').checked = true;
+    }
   });
 }
 
 function toggle_powerstate(state) {
   if(state === 'on') {
+    console.log('--enabling ta demo');
     chrome.storage.sync.set({taActive: true});
   }else {
+    console.log('--disabling ta demo');
     chrome.storage.sync.set({taActive: false});
   }
 }
 
 function bind_events() {
   document.getElementById('update').addEventListener('click', save_options);
-  document.getElementById('on').addEventListener('click', toggle_powerstate);
-  document.getElementById('off').addEventListener('click', toggle_powerstate);
+  document.getElementById('on').addEventListener('click', function() { toggle_powerstate('on'); });
+  document.getElementById('off').addEventListener('click', function() { toggle_powerstate('off'); });
 }
 
 document.addEventListener('DOMContentLoaded', function() {

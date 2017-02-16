@@ -23,7 +23,7 @@ describe('The popup widget', function() {
         wnd.chrome = chrome;
         wnd.console = console;
 
-        chrome.storage.sync.get.withArgs({taId: '', taActive: false}).yields({taId: 123456, taActive: true});
+        chrome.storage.sync.get.withArgs({taId: ''}).yields({taId: 123456});
       },
       done: function(errors, wnd) {
         if (errors) {
@@ -77,16 +77,13 @@ describe('The popup widget', function() {
 
       var on = window.document.getElementById('on');
       on.click();
-      sinon.assert.calledOnce(chrome.storage.sync.set);
-      chrome.storage.sync.set.calledWith({taActive: true});
-
-      chrome.storage.sync.set.reset();
+      assert.isTrue(chrome.storage.sync.set.calledWith({taActive: true}));
 
       var off = window.document.getElementById('off');
       off.click();
-      sinon.assert.calledOnce(chrome.storage.sync.set);
-      chrome.storage.sync.set.calledWith({taActive: false});
+      assert.isTrue(chrome.storage.sync.set.calledWith({taActive: false}));
 
+      sinon.assert.calledTwice(chrome.storage.sync.set);
     });
   });
 
@@ -96,13 +93,39 @@ describe('The popup widget', function() {
       window.save_options();
 
       sinon.assert.calledOnce(chrome.storage.sync.set);
-      chrome.storage.sync.set.calledWith({taId: 'schwifty'});
+      assert.isTrue(chrome.storage.sync.set.calledWith({taId: 'schwifty'}));
     });
 
     it('retrieves settings from chrome storage', function() {
       window.restore_options();
       sinon.assert.calledOnce(chrome.storage.sync.get);
       assert.include(window.document.getElementById('taId').value, '123456');
+    });
+
+    it('can update the power status toggle', function() {
+      var on = window.document.getElementById('on');
+      var off = window.document.getElementById('off');
+
+      assert.isFalse(on.checked);
+      assert.isTrue(off.checked);
+
+      chrome.storage.sync.get.withArgs({taId: '', taActive: false}).yields({taId: 'scwifty', taActive: true});
+      window.restore_options();
+
+      assert.isTrue(on.checked);
+      assert.isFalse(off.checked);
+    });
+
+    it('toggles powerstate', function() {
+      window.toggle_powerstate('on');
+      sinon.assert.calledOnce(chrome.storage.sync.set);
+      assert.isTrue(chrome.storage.sync.set.calledWith({taActive: true}));
+
+      chrome.storage.sync.set.reset();
+
+      window.toggle_powerstate('off');
+      sinon.assert.calledOnce(chrome.storage.sync.set);
+      assert.isTrue(chrome.storage.sync.set.calledWith({taActive: false}));
     });
   });
 
